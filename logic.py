@@ -1,4 +1,3 @@
-from bot import info
 import sqlite3
 
 class DB_Manager:
@@ -9,10 +8,10 @@ class DB_Manager:
                 conn = sqlite3.connect(self.database)
                 with conn:
                     conn.execute("""
-        CREATE TABLE Questions([chatid TEXT, time TEXT, chattype TEXT, title TEXT, username TEXT, name TETX, lastname TEXT, message TEXT]);""")
+        CREATE TABLE IF NOT EXISTS Questions(chatid TEXT, time TEXT, location TEXT, chattype TEXT, title TEXT, username TEXT, name TETX, lastname TEXT, message TEXT);""")
                     conn.commit()
-            def new_question(self):
+            def new_info(self, info):
                 conn = sqlite3.connect(self.database)
                 with conn:
-                    conn.execute(f"""
-        INSERT INTO Questions (chatid, time, chattype, title, username, name, lastname, message) VALUES ({info});""")
+                    conn.execute("""
+        INSERT INTO Questions (chatid, time, location, chattype, title, username, name, lastname, message) VALUES (?,?,?,?,?,?,?,?,?);""", info)
